@@ -13,5 +13,9 @@ var spotifyKeys = {
   
 }
 
+var omdbKey = {
+  key: '87c37879;
+}
+
 module.exports = spotifyKeys
 module.exports = twitterKeys;
