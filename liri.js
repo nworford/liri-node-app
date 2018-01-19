@@ -1,8 +1,6 @@
 //At the top of the liri.js file, write the code you need to grab the data from keys.js. Then store the keys in a variable.
 Make it so liri.js can take in one of the following commands:
 
-
-
 my-tweets
 spotify-this-song
 movie-this
@@ -24,4 +22,19 @@ The album that the song is from
 Client ID 22d67a4af3ea4982b12c9c26fd556066
 Client Secret acd184d190bd419db59de23938e185fc
 
-If no song is provided then your program will default to "The Sign" by Ace of Base.//
+If no song is provided then your program will default to "The Sign" by Ace of Base.
+
+node liri.js movie-this '<movie name here>'
+
+This will output the following information to your terminal/bash window:
+
+   * Title of the movie.
+   * Year the movie came out.
+   * IMDB Rating of the movie.
+   * Rotten Tomatoes Rating of the movie.
+   * Country where the movie was produced.
+   * Language of the movie.
+   * Plot of the movie.
+   * Actors in the movie.
+   
+   If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'//
