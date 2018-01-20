@@ -1,4 +1,20 @@
 // //At the top of the liri.js file, write the code you need to grab the data from keys.js. Then store the keys in a variable.
+
+var keys = require('./keys');
+let twitterKeys = require('./keys').twitterKeys;
+let spotifyKeys = require('./keys').spotifyKeys;
+let omdbKey = require('./keys').omdbKey;
+
+console.log(keys.twitterKeys);
+console.log(keys.spotifyKeys);
+console.log(keys.omdbKey);
+
+var Twitter = require('twitter');
+var Spotify = require('node-spotify-api');
+var request = require('request');
+
+var client = new Twitter(twitterKeys);
+ 
 // Make it so liri.js can take in one of the following commands:
 
 // my-tweets
@@ -7,11 +23,18 @@
 // do-what-it-says
 
 // node liri.js my-tweets
-
 // This will show your last 20 tweets and when they were created at in your terminal/bash window.
+var nodeArgs = process.argv[2];
+
+if (nodeArgs === 'my-tweets') {
+ client.get('statuses/user_timeline', function(error, tweets, response) {
+    if(error) throw error;
+    
+    console.log(response);  // Raw response object. 
+  });
+}
 
 // node liri.js spotify-this-song '<song name here>'
-
 // This will show the following information about the song in your terminal/bash window
 
 // Artist(s)
