@@ -16,10 +16,11 @@ var twitterKeys = {
 // }
 
 var spotifyKeys = {
-  client_id: 'HnIOp6wTrwoPacTfA89Rq00Jj',
-  client_secret: 'GffbG25sVYIdFNd4xY413sZtsjvWEzON21h8pRaF1ud0luWeGE',
+  id: '22d67a4af3ea4982b12c9c26fd556066',
+  secret: 'acd184d190bd419db59de23938e185fc',
   
 }
+
 
 var omdbKey = {
   key: '87c37879'
