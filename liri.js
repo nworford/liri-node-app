@@ -1,15 +1,14 @@
-// //At the top of the liri.js file, write the code you need to grab the data from keys.js. Then store the keys in a variable.
-
 var keys = require('./keys');
 var twitterKeys = require('./keys').twitterKeys;
 var spotifyKeys = require('./keys').spotifyKeys;
-var omdbKey = require('./keys');
-var fs = require('fs');
+var omdbKey = require('./keys').omdbKey;
+
 
 
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
+var fs = require('fs');
 
  
 // Make it so liri.js can take in one of the following commands:
@@ -25,21 +24,23 @@ var client = new Twitter(twitterKeys);
 var command = process.argv[2];
 
 if (command === 'my-tweets') {
+  myTweets();
+}
 
+function myTweets() {
   var params = {screen_name: 'nathanworford'};
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
       console.log("Tweets");
       for (i = 0; i < 20; i++) {
         
-        console.log("created at: ", tweets[i].created_at)
+        console.log("created at: ", tweets[i].created_at);
         console.log("text: ",tweets[i].text);
         console.log("----------------------------------")
       }
     }
   });
 }
-
  
 
 // node liri.js spotify-this-song '<song name here>'
@@ -49,8 +50,12 @@ if (command === 'my-tweets') {
 
 
 if (command === 'spotify-this-song') {
+spotifyThisSong();
+}
+
+function spotifyThisSong (song = process.argv[3]) {
   var spotify = new Spotify(spotifyKeys);
-  var song = process.argv[3];
+  
   var params = { type: 'track', query: song }
   var cb =  function(err, data) {
     if (err) {
@@ -102,13 +107,16 @@ if (command === 'spotify-this-song') {
 
 
 if (command === 'movie-this') {
+  movieThis();
+};  
+
+function movieThis(movie = process.argv[3]) {
   
-  var movie = process.argv[3];
   if(!movie){
     movie = "mr nobody";
   }
  
-  request("http://www.omdbapi.com/?i=tt3896198&apikey=" + omdbKey.omdbKey.key + "&t=" + movie, function (error, response, body) {
+  request("http://www.omdbapi.com/?i=tt3896198&apikey=" + omdbKey.key + "&t=" + movie, function (error, response, body) {
     // console.log(response);
     console.log(error);
     console.log(body);
@@ -134,19 +142,32 @@ if (command === 'movie-this') {
       return;
     }
   });
-};  
+}
 
 // //    If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'//
 
 
 if (command === 'do-what-it-says') {
+  doWhatItSays();
+}
 function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(error, data){
     if (!error) {
       doWhatItSaysResults = data.split(",");
-      spotifyThisSong(doWhatItSaysResults[0], doWhatItSaysResults[1]);
-    } else {
-      console.log("Error occurred" + error);
+      if(doWhatItSaysResults[0] === "spotify-this-song") {
+        spotifyThisSong(doWhatItSaysResults[1]);
+      } 
+      else if(doWhatItSaysResults[0] === "my-tweets") {
+        myTweets();
+      }
+
+      else if(doWhatItSaysResults[0] === "movie-this") {
+        movieThis(doWhatItSaysResults[1]);
+      }
+    
+      else {
+        console.log("Error occurred: " + doWhatItSaysResults[0]);
+      }
     }
   });
 };
@@ -157,5 +178,4 @@ function log(logResults) {
       throw error;
     }
   });
-}
 }
