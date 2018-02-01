@@ -4,7 +4,7 @@ var keys = require('./keys');
 var twitterKeys = require('./keys').twitterKeys;
 var spotifyKeys = require('./keys').spotifyKeys;
 var omdbKey = require('./keys').omdbKey;
-
+var fs = require('fs');
 
 
 var Twitter = require('twitter');
@@ -32,7 +32,7 @@ if (command === 'my-tweets') {
       console.log("Tweets");
       for (i = 0; i < 20; i++) {
         
-        console.log("created at: ", tweets[i].created_at);
+        console.log("created at: ", tweets[i].created_at)
         console.log("text: ",tweets[i].text);
         console.log("----------------------------------")
       }
@@ -57,7 +57,7 @@ if (command === 'spotify-this-song') {
       return console.log('Error occurred: ' + err);
     }
 
-    else() {
+    else { 
       var songInfo = data.tracks.items;
       for (var i = 0; i < 5; i++) {
         if (songInfo[i] != undefined) {
@@ -74,7 +74,7 @@ if (command === 'spotify-this-song') {
       
     }
     console.log("spotify-this-song");
-    console.log(data);
+   
   }
   spotify.search(params, cb)
 }
@@ -99,14 +99,19 @@ if (command === 'spotify-this-song') {
 // //    * Plot of the movie.
 // //    * Actors in the movie.
  // Movie function, uses the Request module to call the OMDB api
- function movieThis(){
+
+
+if (command === 'movie-this') {
+  
   var movie = process.argv[3];
   if(!movie){
     movie = "mr nobody";
   }
-  params = movie
-  request("http://www.omdbapi.com/?t=" + params + "&y=&plot=short&r=json&tomatoes=true", function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+  
+  request("http://www.omdbapi.com/?apikey=" + omdbKey + "&t=" + movie, function (error, response, body) {
+    console.log(response);
+    console.log(body);
+    if (!error) {
       var movieObject = JSON.parse(body);
       //console.log(movieObject); // Show the text in the terminal
       var movieResults =
@@ -124,13 +129,16 @@ if (command === 'spotify-this-song') {
       console.log(movieResults);
       log(movieResults); // calling log function
     } else {
-      console.log("Error :"+ error);
+      console.log("Error :" + error);
       return;
     }
   });
 };  
+
 // //    If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'//
 
+
+if (command === 'movie-this') {
 function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(error, data){
     if (!error) {
@@ -148,4 +156,5 @@ function log(logResults) {
       throw error;
     }
   });
+}
 }
