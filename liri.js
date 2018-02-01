@@ -3,7 +3,7 @@
 var keys = require('./keys');
 var twitterKeys = require('./keys').twitterKeys;
 var spotifyKeys = require('./keys').spotifyKeys;
-var omdbKey = require('./keys').omdbKey;
+var omdbKey = require('./keys');
 var fs = require('fs');
 
 
@@ -107,9 +107,10 @@ if (command === 'movie-this') {
   if(!movie){
     movie = "mr nobody";
   }
-  
-  request("http://www.omdbapi.com/?apikey=" + omdbKey + "&t=" + movie, function (error, response, body) {
-    console.log(response);
+ 
+  request("http://www.omdbapi.com/?i=tt3896198&apikey=" + omdbKey.omdbKey.key + "&t=" + movie, function (error, response, body) {
+    // console.log(response);
+    console.log(error);
     console.log(body);
     if (!error) {
       var movieObject = JSON.parse(body);
@@ -127,7 +128,7 @@ if (command === 'movie-this') {
       "Rotten Tomatoes URL: " + movieObject.tomatoURL + "\r\n" + 
       "------------------------------ fin ------------------------------" + "\r\n";
       console.log(movieResults);
-      log(movieResults); // calling log function
+      console.log(movieResults); // calling log function
     } else {
       console.log("Error :" + error);
       return;
@@ -138,7 +139,7 @@ if (command === 'movie-this') {
 // //    If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'//
 
 
-if (command === 'movie-this') {
+if (command === 'do-what-it-says') {
 function doWhatItSays() {
   fs.readFile("random.txt", "utf8", function(error, data){
     if (!error) {

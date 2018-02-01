@@ -23,7 +23,7 @@ var spotifyKeys = {
 
 
 var omdbKey = {
-  key: '87c37879'
+  key: '9304feb7'
 }
 
 
